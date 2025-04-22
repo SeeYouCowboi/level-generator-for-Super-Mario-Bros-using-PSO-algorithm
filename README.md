@@ -10,7 +10,7 @@
 如果要修改原代码的贴图处理算法，我还得重新画TileMap，还不能用它原来的Marching Squaress算法，因为贴图的情况应该是2^8种（虽然其中会有些无效情况），但绝不是Marching Squaress算法的2^4种情况判断能处理的。
 所以也懒得改了~(ˉ▽￣～) ~~
 
-<img src="/docs/level1.png" width="420" />
+<img src="/gameshot.png" width="420" />
 
 ## 如何复现成果
 
