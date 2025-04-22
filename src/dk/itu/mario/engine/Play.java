@@ -9,7 +9,7 @@ public class Play {
 	    {
 
 	    	JFrame frame = new JFrame("Mario Experience Showcase");
-	    	MarioComponent mario = new MarioComponent(640, 480,false);
+	    	MarioComponent mario = new MarioComponent(640, 480,0);
 
 	    	frame.setContentPane(mario);
 	    	frame.setResizable(false);

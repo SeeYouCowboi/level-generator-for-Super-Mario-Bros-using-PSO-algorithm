@@ -519,6 +519,10 @@ public class RandomLevel extends Level{
 	        }
 	    }
 
+
+		/*
+		* 自动调整方块边缘贴图的函数
+		 */
 	    private void fixWalls()
 	    {
 	        boolean[][] blockMap = new boolean[width + 1][height + 1];

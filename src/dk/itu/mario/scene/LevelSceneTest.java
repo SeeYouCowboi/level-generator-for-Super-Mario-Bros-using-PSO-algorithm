@@ -26,6 +26,7 @@ import dk.itu.mario.level.RandomLevel;
 import dk.itu.mario.level.generator.CustomizedLevelGenerator;
 import dk.itu.mario.level.generator.GALevelGenerator;
 import dk.itu.mario.engine.Play;
+import dk.itu.mario.level.generator.PSOLevelGenerator;
 import dk.itu.mario.res.ResourcesManager;
 
 	public class LevelSceneTest extends LevelScene{
@@ -34,13 +35,13 @@ import dk.itu.mario.res.ResourcesManager;
 			private double thresshold; //how large the distance from point to mario should be before switching
 			private int point = -1;
 			private int []checkPoints;
-			private boolean isCustom;
+			private int customType;
 
 
 			public LevelSceneTest(GraphicsConfiguration graphicsConfiguration,
-					MarioComponent renderer, long seed, int levelDifficulty, int type,boolean isCustom){
+					MarioComponent renderer, long seed, int levelDifficulty, int type,int customType){
 				super(graphicsConfiguration,renderer,seed,levelDifficulty,type);
-				this.isCustom = true;
+				this.customType = customType;
 			}
 
 			public void init() {
@@ -55,20 +56,29 @@ import dk.itu.mario.res.ResourcesManager;
 		        }
 
 		        if(level==null)
-		        	if(isCustom){
-		        		
-		        		GALevelGenerator clg = new GALevelGenerator();
-		        		GamePlay gp = new GamePlay();
-		        		gp = gp.read("player.txt");
-		        		currentLevel = (Level)clg.generateLevel(gp);
-		        		
+		        	if(customType != 0){
+
+						GamePlay gp = new GamePlay();
+						gp = gp.read("player.txt");
+
+						switch (customType) {
+							case 1:
+								GALevelGenerator glg = new GALevelGenerator();
+								currentLevel = (Level) glg.generateLevel(gp);
+								break;
+							case 2:
+								PSOLevelGenerator plg = new PSOLevelGenerator();
+								currentLevel = (Level)plg.generateLevel(gp);
+								break;
+						}
+
 		        		//You can use the following commands if you want to benefit from
 		        		//	the interface containing detailed information
 		        		String detailedInfo = FileHandler.readFile("DetailedInfo.txt");
 		                
-		              }
-			        	else
-		        		currentLevel = new RandomLevel(320, 15, levelSeed, levelDifficulty,levelType);
+					}
+					else
+						currentLevel = new RandomLevel(320, 15, levelSeed, levelDifficulty,levelType);
 
 		        try {
 					 level = currentLevel.clone();
@@ -116,7 +126,7 @@ import dk.itu.mario.res.ResourcesManager;
 
 		    	double startX = 32; //mario start position
 		    	double endX = level.getxExit()*squareSize; //position of the end on the level
-		    	if(!isCustom && recorder==null)
+		    	if(customType==0 && recorder==null)
 		    		recorder = new DataRecorder(this,(RandomLevel)level,keys);
 
 		        gameStarted = false;

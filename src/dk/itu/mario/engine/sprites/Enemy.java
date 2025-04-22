@@ -16,6 +16,7 @@ public class Enemy extends Sprite
     public static final int ENEMY_GOOMBA = 2;
     public static final int ENEMY_SPIKY = 3;
     public static final int ENEMY_FLOWER = 4;
+    public static final int ENEMY_SPIKETRAP = 5;
 
     private static float GROUND_INERTIA = 0.89f;
     private static float AIR_INERTIA = 0.89f;
@@ -185,7 +186,7 @@ public class Enemy extends Sprite
         }
 
 
-        if (!move(xa, 0)) facing = -facing;
+        if (!move(xa, 0) && type != ENEMY_SPIKY) facing = -facing;
         onGround = false;
         move(0, ya);
 
@@ -222,6 +223,7 @@ public class Enemy extends Sprite
 
     private boolean move(float xa, float ya)
     {
+        if(type == ENEMY_SPIKY)return false;
         while (xa > 8)
         {
             if (!move(8, 0)) return false;
@@ -354,6 +356,7 @@ public class Enemy extends Sprite
     public boolean fireballCollideCheck(Fireball fireball)
     {
         if (deadTime != 0) return false;
+
 
         float xD = fireball.x - x;
         float yD = fireball.y - y;

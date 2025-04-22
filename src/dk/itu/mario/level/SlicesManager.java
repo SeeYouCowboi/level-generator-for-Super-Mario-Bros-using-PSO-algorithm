@@ -1,6 +1,7 @@
 package dk.itu.mario.level;
 
 import dk.itu.mario.engine.sprites.Enemy;
+import dk.itu.mario.level.generator.MapTiles;
 
 public class SlicesManager extends Level {
 
@@ -60,7 +61,17 @@ public class SlicesManager extends Level {
 		EMPTY_SPACE,
 		EMPTY_SPACE 
 	};
-	
+
+	public static byte cellChar2Byte(char cellChar){
+		switch (cellChar){
+			case (MapTiles.BLANK): return EMPTY_SPACE;
+			case (MapTiles.ENEMY): return EMPTY_SPACE;
+			case (MapTiles.SPIKE): return EMPTY_SPACE;
+			case (MapTiles.GROUND): return GROUND;
+		}
+		return -1;
+	}
+
 	private static byte[][] slices = {sliceA, sliceB, sliceC};
 	
 	public static byte[] getSlice(int sliceNumber)

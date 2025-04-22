@@ -39,9 +39,15 @@ public class Mario extends Sprite
     public static final int KEY_SPEED = 5;
     public static final int KEY_ENTER = 6;
 
-    private static float GROUND_INERTIA = 0.89f;
-    private static float AIR_INERTIA = 0.89f;
-
+    public static final float GROUND_INERTIA = 0.89f;
+    public static final float AIR_INERTIA = 0.89f;
+    public static final float WALK_SPEED = 0.6f;
+    public static final float RUN_SPEED = 1.2f;
+    public static final float GRAVITY = 3f;
+    public static final float JUMP_FORCE_GROUND = -1.9f;
+    public static final float JUMP_FORCE_SLIDING = -2.0f;
+    public static final int JUMP_TIME_GROUND = 7;
+    public static final int JUMP_TIME_STOMP = 8;
     public boolean[] keys;
     private float runTime;
     boolean wasOnGround = false;
@@ -224,7 +230,7 @@ public class Mario extends Sprite
         visible = ((invulnerableTime / 2) & 1) == 0;
 
         wasOnGround = onGround;
-        float sideWaysSpeed = keys[KEY_SPEED] ? 1.2f : 0.6f;
+        float sideWaysSpeed = keys[KEY_SPEED] ? RUN_SPEED : WALK_SPEED;
         //        float sideWaysSpeed = onGround ? 2.5f : 1.2f;
 
         if (onGround)
@@ -269,8 +275,8 @@ public class Mario extends Sprite
             {
                 world.sound.play(Art.samples[Art.SAMPLE_MARIO_JUMP], this, 1, 1, 1);
                 xJumpSpeed = 0;
-                yJumpSpeed = -1.9f;
-                jumpTime = 7;
+                yJumpSpeed = JUMP_FORCE_GROUND;
+                jumpTime = JUMP_TIME_GROUND;
                 ya = jumpTime * yJumpSpeed;
                 onGround = false;
                 sliding = false;
@@ -284,7 +290,7 @@ public class Mario extends Sprite
             {
                 world.sound.play(Art.samples[Art.SAMPLE_MARIO_JUMP], this, 1, 1, 1);
                 xJumpSpeed = -facing * 6.0f;
-                yJumpSpeed = -2.0f;
+                yJumpSpeed = JUMP_FORCE_SLIDING;
                 jumpTime = -6;
                 xa = xJumpSpeed;
                 ya = -jumpTime * yJumpSpeed;
@@ -427,7 +433,7 @@ public class Mario extends Sprite
 
         if (!onGround)
         {
-            ya += 3;
+            ya += GRAVITY;
         }
 
         if (carried != null)
@@ -637,8 +643,8 @@ public class Mario extends Sprite
 
         world.sound.play(Art.samples[Art.SAMPLE_MARIO_KICK], this, 1, 1, 1);
         xJumpSpeed = 0;
-        yJumpSpeed = -1.9f;
-        jumpTime = 8;
+        yJumpSpeed = JUMP_FORCE_GROUND;
+        jumpTime = JUMP_TIME_STOMP;
         ya = jumpTime * yJumpSpeed;
         onGround = false;
         sliding = false;
@@ -664,8 +670,8 @@ public class Mario extends Sprite
 
             world.sound.play(Art.samples[Art.SAMPLE_MARIO_KICK], this, 1, 1, 1);
             xJumpSpeed = 0;
-            yJumpSpeed = -1.9f;
-            jumpTime = 8;
+            yJumpSpeed = JUMP_FORCE_GROUND;
+            jumpTime = JUMP_TIME_STOMP;
             ya = jumpTime * yJumpSpeed;
             onGround = false;
             sliding = false;
@@ -867,8 +873,8 @@ public class Mario extends Sprite
 
         world.sound.play(Art.samples[Art.SAMPLE_MARIO_KICK], this, 1, 1, 1);
         xJumpSpeed = 0;
-        yJumpSpeed = -1.9f;
-        jumpTime = 8;
+        yJumpSpeed = JUMP_FORCE_GROUND;
+        jumpTime = JUMP_TIME_STOMP;
         ya = jumpTime * yJumpSpeed;
         onGround = false;
         sliding = false;

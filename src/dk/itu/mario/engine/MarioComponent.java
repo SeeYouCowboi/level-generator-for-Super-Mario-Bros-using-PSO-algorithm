@@ -45,14 +45,14 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
 		    private SonarSoundEngine sound;
 		    private boolean focused = false;
 		    private boolean useScale2x = false;
-		    private boolean isCustom = false;
+		    private int customType = 0;
 
 
 		    private Scale2x scale2x = new Scale2x(320, 240);
 
 		    private double openTime;
 
-		    public MarioComponent(int width, int height,boolean isCustomized){
+		    public MarioComponent(int width, int height,int customType){
 		    	addFocusListener(this);
 		    	addMouseListener(this);
 		    	addKeyListener(this);
@@ -61,7 +61,7 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
 		        this.setEnabled(true);
 		        this.width = width;
 		        this.height = height;
-		        this.isCustom = isCustomized;
+		        this.customType = customType;
 
 		        Dimension size = new Dimension(width, height);
 		        setPreferredSize(size);
@@ -174,10 +174,13 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
 		        float averagePassedTime = 0;
 
 		        boolean naiveTiming = true;
-		        if (isCustom)
-		        	toCustomGame();
-		        else
-		        toRandomGame();
+                if (customType == 0) {
+                    toRandomGame();
+                } else {
+                    toCustomGame(customType);
+                }
+
+
 
 		        float correction = 0f;
 		        if(System.getProperty("os.name") == "Mac OS X");
@@ -320,7 +323,7 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
 		     * Part of the fun increaser
 		     */
 		    public void toRandomGame(){
-		    	randomLevel = new LevelSceneTest(graphicsConfiguration,this,new Random().nextLong(),0,0,false);
+		    	randomLevel = new LevelSceneTest(graphicsConfiguration,this,new Random().nextLong(),0,0,0);
 
 		    	Mario.fire = false;
 		    	Mario.large = false;
@@ -333,9 +336,9 @@ public class MarioComponent extends JComponent implements Runnable, KeyListener,
 
 		    }
 
-		    public void toCustomGame(){
+		    public void toCustomGame(int customType){
 
-		    	randomLevel = new LevelSceneTest(graphicsConfiguration,this,new Random().nextLong(),0,0,true);
+		    	randomLevel = new LevelSceneTest(graphicsConfiguration,this,new Random().nextLong(),0,0,customType);
 
 		    	Mario.fire = false;
 		    	Mario.large = false;
